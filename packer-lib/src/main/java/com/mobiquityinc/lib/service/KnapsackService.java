@@ -13,7 +13,7 @@ import static java.lang.Math.max;
 
 /**
  * Dynamic programming algorithm
- * https://en.wikipedia.org/wiki/Knapsack_problem#0.2F1_knapsack_problem
+ * https://en.wikipedia.org/wiki/Knapsack_problem
  */
 @Slf4j
 @Component
@@ -26,6 +26,15 @@ public class KnapsackService {
 
     private int maxWeight;
 
+    /**
+     * The knapsack problem is a problem in combinatorial optimization:
+     * given a set of items, each with a weight and a value, determine
+     * the number of each item to include in a collection so that the
+     * total weight is less than or equal to a given limit and the total
+     * value is as large as possible.
+     * @param items
+     * @param maxWeight
+     */
     public void createTable(List<Item> items, int maxWeight) {
         this.items = items;
         this.maxWeight = maxWeight;
@@ -38,11 +47,21 @@ public class KnapsackService {
         table = computationsStorage;
     }
 
+    /**
+     * Filter max weight used with knapsack algorithm
+     * @return
+     */
     public List<Item> filter() {
         fillTable(maxWeight, items.size() - 1);
         return getFilteredItems();
     }
 
+    /**
+     * Fill knapsack table
+     * @param j
+     * @param i
+     * @return
+     */
     private double fillTable(int j, int i) {
         if (i < 0 || j < 0) {
             return 0;
@@ -62,6 +81,10 @@ public class KnapsackService {
         return cell;
     }
 
+    /**
+     * Get filtered items from Knapsack table
+     * @return
+     */
     private List<Item> getFilteredItems() {
         List<Item> filteredItems = new ArrayList<>();
         int i = items.size() - 1;

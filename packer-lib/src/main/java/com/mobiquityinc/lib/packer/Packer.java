@@ -22,6 +22,11 @@ public class Packer {
 
     private final PackageReader reader;
 
+    /**
+     * Used for processing a file with packets
+     * @param path
+     * @return
+     */
     public String pack(String path) {
         String definitions = reader.read(path);
         List<Package> packages = factory.create(definitions);

@@ -18,6 +18,11 @@ import static java.nio.file.Paths.get;
 @NoArgsConstructor
 public class PackageReader {
 
+    /**
+     * Read path according to given path
+     * @param path
+     * @return
+     */
     public String read(String path) {
         if (path == null) {
             throw new APIException("Path should not be null or empty.");
@@ -29,6 +34,11 @@ public class PackageReader {
         return getFileContent(path);
     }
 
+    /**
+     * Get file content according to given path
+     * @param path
+     * @return
+     */
     private String getFileContent(String path) {
         try {
             return new String(readAllBytes(get(path)), UTF_8);

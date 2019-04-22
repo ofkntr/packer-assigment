@@ -21,10 +21,20 @@ public class PackageFormatter {
 
     public static final String ITEM_SEPARATOR = ",";
 
+    /**
+     * Format output according to package
+     * @param packages
+     * @return
+     */
     public String format(List<Package> packages) {
         return packages.stream().map(pkg -> pkg.items).map(this::toItemsString).collect(joining(lineSeparator()));
     }
 
+    /**
+     * Format output according to package item
+     * @param items
+     * @return
+     */
     private String toItemsString(List<Item> items) {
         if (items.isEmpty()) {
             return EMPTY_ITEMS_MARK;

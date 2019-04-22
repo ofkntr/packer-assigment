@@ -34,6 +34,12 @@ public class ItemFactory {
 
     private static final Pattern ITEMS_PATTERN = Pattern.compile(" ");
 
+    /**
+     * Create Item according to items regex pattern
+     * @param maxWeight
+     * @param definition
+     * @return
+     */
     public List<Item> create(int maxWeight, String definition) {
         if (definition.isEmpty()) {
             return emptyList();
@@ -46,6 +52,11 @@ public class ItemFactory {
         return filterByMaxWeight(items, maxWeight);
     }
 
+    /**
+     * Convert to item according to item regex pattern
+     * @param definition
+     * @return
+     */
     private Item toItem(String definition) {
         Matcher matcher = ITEM_PATTERN.matcher(definition);
         if (!matcher.find()) {
@@ -59,24 +70,42 @@ public class ItemFactory {
         return new Item(index, weight, price);
     }
 
+    /**
+     * Validate weight according to given constraints
+     * @param weight
+     */
     private void validateWeight(double weight) {
         if (weight > MAX_ITEM_WEIGHT) {
             throw new APIException("Item weight should be less or equals to " + MAX_ITEM_WEIGHT + ".");
         }
     }
 
+    /**
+     * Validate price according to given constraints
+     * @param price
+     */
     private void validatePrice(int price) {
         if (price > MAX_ITEM_PRICE) {
             throw new APIException("Item price should be less or equals to " + MAX_ITEM_PRICE + ".");
         }
     }
 
+    /**
+     * Validate item size according to given constraints
+     * @param items
+     */
     private void validateItemsSize(List<Item> items) {
         if (items.size() > MAX_ITEM_SIZE) {
             throw new APIException("Package should contains not more than " + MAX_ITEM_SIZE + " filteredItems.");
         }
     }
 
+    /**
+     * Filter max weight used with knapsack algorithm
+     * @param items
+     * @param maxWeight
+     * @return
+     */
     private List<Item> filterByMaxWeight(List<Item> items, int maxWeight) {
         knapsackService.createTable(items, maxWeight);
         return knapsackService.filter().stream()

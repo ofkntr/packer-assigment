@@ -25,6 +25,9 @@ public class FileStorageService {
     @Value("${file.upload-directory}")
     private String uploadDirectory;
 
+    /**
+     * Initialize uploaded file directory.
+     */
     @PostConstruct
     public void init() {
         this.fileStorageLocation = Paths.get(uploadDirectory)
@@ -37,6 +40,11 @@ public class FileStorageService {
         }
     }
 
+    /**
+     * Store posted file on created folder.
+     * @param file
+     * @return
+     */
     public String storeFile(MultipartFile file) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());

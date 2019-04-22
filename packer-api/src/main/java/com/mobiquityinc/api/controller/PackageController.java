@@ -20,7 +20,10 @@ public class PackageController {
     private final Packer packer;
 
     /**
-     *
+     * A simple end point to calculate service is to consider all subsets
+     * of items and calculate the total weight and value of all subsets.
+     * Consider the only subsets whose total weight is smaller than W.
+     * From all such subsets, pick the maximum value subset.
      * @param file
      * @return
      */

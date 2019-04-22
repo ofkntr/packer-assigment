@@ -19,9 +19,6 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class PackageFactory {
 
-//    @Value("${packer.max.package.weight}")
-//    private int maxPackageWeight;
-
     private static final int MAX_PACKAGE_WEIGHT = 100;
 
     private final ItemFactory itemsFactory;
@@ -30,6 +27,11 @@ public class PackageFactory {
 
     private static final Pattern WEIGHT_PATTERN = Pattern.compile("(\\d+) : (.*)");
 
+    /**
+     * Create package according to given item
+     * @param definitions
+     * @return
+     */
     public List<Package> create(String definitions) {
         if (definitions.isEmpty()) {
             throw new APIException("String should contains package weight.");
@@ -40,6 +42,11 @@ public class PackageFactory {
         return filterByValuableWeight(packages);
     }
 
+    /**
+     * Convert package according to given item
+     * @param definition
+     * @return
+     */
     private Package toPackage(String definition) {
         Matcher matcher = WEIGHT_PATTERN.matcher(definition);
         if (!matcher.find()) {
@@ -51,12 +58,21 @@ public class PackageFactory {
         return new Package(weight, items);
     }
 
+    /**
+     * Validate weight according to given constraints
+     * @param weight
+     */
     private void validateWeight(int weight) {
         if (weight > MAX_PACKAGE_WEIGHT) {
             throw new APIException("Package weight should be less or equals to " + MAX_PACKAGE_WEIGHT + ".");
         }
     }
 
+    /**
+     * Filter package acoorging to totatl price and total weight
+     * @param packages
+     * @return
+     */
     private List<Package> filterByValuableWeight(List<Package> packages) {
         packages.removeIf(pkg1 -> packages.stream()
                 .anyMatch(pkg2 -> pkg1 != pkg2
@@ -66,10 +82,20 @@ public class PackageFactory {
         return packages;
     }
 
+    /**
+     * Get total weight to given package
+     * @param pkg
+     * @return
+     */
     private double getTotalWeight(Package pkg) {
         return pkg.items.stream().mapToDouble(item -> item.weight).sum();
     }
 
+    /**
+     * Get total price to given package
+     * @param pkg
+     * @return
+     */
     private int getTotalPrice(Package pkg) {
         return pkg.items.stream().mapToInt(item -> item.price).sum();
     }
