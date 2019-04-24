@@ -1,5 +1,6 @@
 package com.mobiquityinc.api.handler;
 
+import com.mobiquityinc.lib.exception.APIException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -112,8 +113,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return
      */
     @ExceptionHandler(MultipartException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(
+    protected ResponseEntity<Object> handleMultipartException(
             MultipartException ex) {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(APIException.class)
+    protected ResponseEntity<Object> handleApiException(
+            APIException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
