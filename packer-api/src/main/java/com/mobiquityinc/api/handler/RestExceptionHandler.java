@@ -120,6 +120,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    /**
+     * Hnadles packer APIException
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(APIException.class)
     protected ResponseEntity<Object> handleApiException(
             APIException ex) {
